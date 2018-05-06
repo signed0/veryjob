@@ -9,7 +9,7 @@ import requests
 API_BASE = 'https://hn.algolia.com/api/v1'
 
 PLACE_MATCHES = ('SF', 'San Francisco', 'san francisco')
-BODY_MATCHES = ('java', 'python')
+BODY_MATCHES = ('python',)
 
 
 app = Flask(__name__)
@@ -27,15 +27,24 @@ def get_hn_comments(story_id):
 
 
 def get_jobs(story_id):
-    for comment in get_hn_comments(story_id):
+    comments = get_hn_comments(story_id)
+    for comment in comments:
         soup = BeautifulSoup(comment['text'], 'html.parser')
-        head, *body = '\n'.join(soup.strings).split('\n')
+        head = None
+        body = []
+        for child in soup.children:
+            if not head and any(child.children):
+                head = str(list(child.children)[0])
+            else:
+                body.append(child)
+        if not head:
+            continue
         head_parts = [p for p in (p.strip() for p in head.split('|')) if p]
         yield {
             'head': head,
             'company': head_parts[0],
             'parts': head_parts[1:],
-            'body': '<br>'.join(body)
+            'body': str(''.join(str(b) for b in body))
             }
 
 

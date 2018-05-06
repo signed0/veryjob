@@ -17,9 +17,9 @@
       <div>
         <h3>{{ loop.index }}. {{ job.company }}</h3>
         <h6>{{ ' | '.join(job.parts) }}</h6>
-        <p>
+        <div>
         {{ job.body|safe }}
-        </p>
+        </div>
       </div>
       {% endfor %}
     </div>
