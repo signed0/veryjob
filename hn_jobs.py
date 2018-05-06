@@ -33,9 +33,9 @@ def get_hn_comments(article_id):
 
         is_last_page = soup.find('a', class_="morelink") is None
 
-        return list(comments), is_last_page
+        return comments, is_last_page
 
-    for page in range(1, 100):
+    for page in range(1, 25):
         comments, is_last_page = _page_comments(page)
         yield from comments
         if not FETCH_PAGES or is_last_page:
