@@ -1,0 +1,28 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <title>HN Jobs</title>
+
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css" integrity="sha384-Gn5384xqQ1aoWXA+058RXPxPg6fy4IWvTNh0E263XmFcJlSAwiGgFAW/dAiS6JXm" crossorigin="anonymous">
+  </head>
+  <body>
+
+    <div class="container">
+      <h1>HN Jobs</h1>
+
+      {% for job in jobs|sort(attribute='company') %}
+      <div>
+        <h3>{{ loop.index }}. {{ job.company }}</h3>
+        <h6>{{ ' | '.join(job.parts) }}</h6>
+        <p>
+        {{ job.body|safe }}
+        </p>
+      </div>
+      {% endfor %}
+    </div>
+
+  </body>
+</html>
